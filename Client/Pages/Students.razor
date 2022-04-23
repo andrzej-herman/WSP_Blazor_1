@@ -1,0 +1,84 @@
+@page "/students"
+@using Client.Components
+<h3>Lista studentów</h3>
+<div class="mt-3">
+    @if(students != null)
+    {
+        <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Imię</th>
+            <th scope="col">Nazwisko</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in students)
+            {
+                <tr>
+                    <th scope="row">@s.StudentId</th>
+                    <td>@s.Name</td>
+                    <td>@s.Surname</td>
+                </tr>
+            }   
+        </tbody>
+        </table>
+    }
+    else
+    {
+        <Loader />
+    }
+    
+    <div class="mt-5">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="name">Imię</label>
+                    <input type="text" class="form-control" id="name" @bind-value="@firstName"> 
+                </div>
+                <div class="form-group mt-2">
+                    <label for="surname">Nazwisko</label>
+                    <input type="text" class="form-control" id="surname" @bind-value="@lastName"> 
+                </div>
+                <button class="btn btn-primary mt-3" @onclick="Zapisz">Zapisz</button>
+            </div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+        List<Student> students;    
+        string firstName;
+        string lastName;
+        
+        protected override async Task OnInitializedAsync()
+        {
+            await Task.Delay(2000);
+            students = new List<Student>()
+            {
+                new Student(1, "Marek", "Hłasko"),
+                new Student(2, "Henryk", "Sienkiewicz"),
+                new Student(3, "Adam", "Mickiewicz"),
+                new Student(4, "Juliusz", "Słowacki"),
+            };
+        }
+
+        void Zapisz()
+        {
+            var student = new Student();
+            student.StudentId = students.Max(s => s.StudentId) + 1;
+            student.Name = firstName;
+            student.Surname = lastName;
+            students.Add(student);
+            firstName = lastName = "";
+        }
+
+}
+
+
+
+

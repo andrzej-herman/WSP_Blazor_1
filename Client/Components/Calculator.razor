@@ -1,0 +1,43 @@
+<div class="mt-5">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="name">Pierwsza liczba</label>
+                    <input type="text" class="form-control" id="name" @bind-value="@first"> 
+                </div>
+                <div class="form-group mt-2">
+                    <label for="surname">Druga liczba</label>
+                    <input type="text" class="form-control" id="surname" @bind-value="@second"> 
+                </div>
+                <button class="btn btn-primary mt-3" @onclick="Oblicz">Zapisz</button>
+            </div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h1>Wynik: @result</h1>
+            </div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+    </div>
+
+
+    @code {
+
+        [Parameter]
+        public string OperationType { get; set; }
+
+        int first;
+        int second;
+        int result;
+
+        void Oblicz()
+        {
+            if (OperationType == "dodawanie")
+                result = first + second;
+            else
+                 result = first * second;
+        }
+    }
